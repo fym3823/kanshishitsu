@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>統合監視室勤務者として常識的で文化的な最低限度の有するべき知識</title>
+<meta name="description" content="電気主任技術者（第三種・第二種）試験に向けた、○×・選択式のクイズ形式学習サイト。1問ずつ気軽に、正誤判定と解説つき。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 監視コンソール風ステータスバー（このサイトの象徴） -->
+  <div class="console">
+    <div class="console__inner">
+      <span class="console__live"><span class="console__dot"></span>MONITORING</span>
+      <span class="console__stat">出題 <b id="stAnswered">0</b></span>
+      <span class="console__stat">正答率 <b id="stRate">0%</b></span>
+      <span class="console__stat">連続 <b id="stStreak">0</b></span>
+      <span class="console__stat">最高 <b id="stBest">0</b></span>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <header class="masthead">
+      <h1>統合監視室勤務者として<br>常識的で文化的な最低限度の有するべき知識</h1>
+    </header>
+
+    <!-- 科目タブ（法規のみ有効。他は今後追加） -->
+    <div class="tabs" role="tablist" aria-label="科目">
+      <button class="tab" role="tab" data-sub="法規" aria-selected="true">法規</button>
+      <button class="tab" role="tab" data-sub="理論" disabled>理論（準備中）</button>
+      <button class="tab" role="tab" data-sub="電力" disabled>電力（準備中）</button>
+      <button class="tab" role="tab" data-sub="機械" disabled>機械（準備中）</button>
+    </div>
+
+    <!-- 問題カード（app.jsが差し替え） -->
+    <section class="card" id="card" aria-live="polite"></section>
+
+    <!-- 操作 -->
+    <div class="controls">
+      <span class="spacer"></span>
+      <button class="btn btn--ghost" id="resetBtn">記録をリセット</button>
+    </div>
+
+    <footer class="pagefoot">
+      <span>© 統合監視室</span>
+      <span>電験 3種 &amp; 2種</span>
+    </footer>
+  </main>
+
+  <!-- 問題データ（バックアップ本体）→ ロジック の順で読み込む -->
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

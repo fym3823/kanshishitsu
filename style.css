@@ -1,0 +1,225 @@
+/* =========================================================
+   統合監視室勤務者として常識的で文化的な最低限度の有するべき知識
+   Design tokens
+   - 明るく読みやすい基調（可読性 最優先）
+   - 紫のアクセント（乃紫＝紫のイメージ）
+   - 監視コンソール風のレトロなステータスバーを象徴に
+========================================================= */
+:root{
+  --bg:        #f3f2f9;   /* cool lavender paper */
+  --bg-2:      #e9e7f4;
+  --surface:   #ffffff;
+  --ink:       #1b1a2e;   /* deep violet-black */
+  --muted:     #6b6880;
+  --line:      #e2dff0;
+  --violet:    #6d50e6;   /* primary accent */
+  --violet-2:  #a68ff5;
+  --violet-ink:#3a2a8f;
+  --ok:        #1f9e6b;   /* 正解 / OK lamp */
+  --ok-bg:     #e7f6ef;
+  --ng:        #e5484d;   /* 不正解 / fault lamp */
+  --ng-bg:     #fdecec;
+  --console:   #14131f;   /* dark console strip */
+  --console-ink:#c9c2ec;
+  --phos:      #7ef0c0;   /* phosphor green readout */
+
+  --r:         16px;
+  --r-sm:      10px;
+  --shadow:    0 1px 2px rgba(27,26,46,.05), 0 10px 30px rgba(63,49,140,.07);
+  --font-jp:   "Zen Kaku Gothic New", system-ui, sans-serif;
+  --font-mono: "Space Mono", ui-monospace, monospace;
+}
+
+*{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; }
+body{
+  font-family:var(--font-jp);
+  color:var(--ink);
+  background:
+    radial-gradient(120% 80% at 100% 0%, var(--bg-2) 0%, transparent 55%),
+    var(--bg);
+  min-height:100dvh;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+/* ---------- console status bar (signature) ---------- */
+.console{
+  background:var(--console);
+  color:var(--console-ink);
+  font-family:var(--font-mono);
+  font-size:12px;
+  letter-spacing:.06em;
+  border-bottom:1px solid #2a2740;
+}
+.console__inner{
+  max-width:640px; margin:0 auto;
+  padding:8px 18px;
+  display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+}
+.console__live{ display:flex; align-items:center; gap:7px; color:#8f88bd; }
+.console__dot{
+  width:7px; height:7px; border-radius:50%;
+  background:var(--phos); box-shadow:0 0 8px var(--phos);
+  animation:blink 1.6s steps(1) infinite;
+}
+@keyframes blink{ 50%{ opacity:.25; } }
+.console__stat{ display:flex; gap:6px; align-items:baseline; }
+.console__stat b{ color:var(--phos); font-weight:700; }
+.console__spacer{ flex:1 1 auto; }
+
+/* ---------- layout ---------- */
+.wrap{ max-width:640px; margin:0 auto; padding:22px 18px 64px; }
+
+.masthead{ padding:14px 0 20px; }
+.eyebrow{
+  font-family:var(--font-mono); font-size:11px; letter-spacing:.22em;
+  text-transform:uppercase; color:var(--violet); font-weight:700;
+  display:flex; align-items:center; gap:8px;
+}
+.eyebrow::before{ content:"/"; color:var(--violet-2); }
+.masthead h1{
+  font-size:clamp(17px, 4.6vw, 22px);
+  font-weight:900; line-height:1.5; margin:.5rem 0 0;
+  letter-spacing:.01em;
+}
+.masthead p{ margin:.4rem 0 0; color:var(--muted); font-size:13.5px; }
+
+/* ---------- subject tabs ---------- */
+.tabs{ display:flex; gap:8px; margin:18px 0 22px; flex-wrap:wrap; }
+.tab{
+  font-family:var(--font-mono); font-size:12.5px; letter-spacing:.04em;
+  padding:8px 14px; border-radius:999px; border:1px solid var(--line);
+  background:var(--surface); color:var(--muted); cursor:pointer;
+  transition:transform .12s ease, box-shadow .12s ease, color .12s;
+}
+.tab[aria-selected="true"]{
+  background:var(--violet); border-color:var(--violet);
+  color:#fff; box-shadow:0 6px 18px rgba(109,80,230,.28);
+}
+.tab:disabled{ opacity:.5; cursor:not-allowed; }
+.tab:not(:disabled):hover{ transform:translateY(-1px); }
+
+/* ---------- question card ---------- */
+.card{
+  background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--r); box-shadow:var(--shadow);
+  padding:24px 22px; margin-bottom:16px;
+}
+.card__meta{
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  margin-bottom:14px;
+}
+.chip{
+  font-family:var(--font-mono); font-size:11px; letter-spacing:.05em;
+  padding:4px 10px; border-radius:999px;
+  background:var(--bg-2); color:var(--violet-ink); font-weight:700;
+}
+.chip--type{ background:#efeafd; color:var(--violet); }
+.qno{ font-family:var(--font-mono); font-size:11px; color:var(--muted); margin-left:auto; }
+
+.qtext{
+  font-size:clamp(16px, 4.4vw, 18.5px);
+  font-weight:700; line-height:1.85; margin:0 0 20px;
+  word-break:auto-phrase;
+}
+
+/* ---------- answers ---------- */
+.answers{ display:grid; gap:10px; }
+.answers.ox{ grid-template-columns:1fr 1fr; }
+.ans{
+  display:flex; align-items:center; gap:12px; text-align:left;
+  width:100%; padding:15px 16px; cursor:pointer;
+  font-family:var(--font-jp); font-size:15.5px; font-weight:700; color:var(--ink);
+  background:var(--surface); border:1.5px solid var(--line); border-radius:var(--r-sm);
+  transition:transform .1s ease, border-color .12s, background .12s;
+}
+.ans:hover:not(:disabled){ border-color:var(--violet-2); transform:translateY(-1px); }
+.ans:disabled{ cursor:default; }
+.ans .mark{
+  flex:0 0 auto; width:30px; height:30px; border-radius:50%;
+  display:grid; place-items:center; font-family:var(--font-mono);
+  font-size:15px; font-weight:700; background:var(--bg-2); color:var(--violet-ink);
+}
+.answers.ox .ans{ justify-content:center; font-size:22px; padding:20px; }
+.answers.ox .ans .mark{ width:34px; height:34px; font-size:20px; }
+
+/* result states */
+.ans.correct{ border-color:var(--ok); background:var(--ok-bg); color:var(--ok); }
+.ans.correct .mark{ background:var(--ok); color:#fff; }
+.ans.wrong{ border-color:var(--ng); background:var(--ng-bg); color:var(--ng); }
+.ans.wrong .mark{ background:var(--ng); color:#fff; }
+.ans.dim{ opacity:.5; }
+
+/* ---------- judgment + explanation ---------- */
+.verdict{
+  display:none; align-items:center; gap:10px;
+  font-weight:900; font-size:17px; margin:20px 0 8px;
+}
+.verdict .lamp{
+  width:12px; height:12px; border-radius:50%;
+}
+.verdict.ok{ color:var(--ok); }
+.verdict.ok .lamp{ background:var(--ok); box-shadow:0 0 10px var(--ok); }
+.verdict.ng{ color:var(--ng); }
+.verdict.ng .lamp{ background:var(--ng); box-shadow:0 0 10px var(--ng); }
+
+.explain{
+  display:none; border-left:3px solid var(--violet-2);
+  background:var(--bg); border-radius:0 var(--r-sm) var(--r-sm) 0;
+  padding:14px 16px; font-size:14.5px; line-height:1.85; color:#2c2a44;
+}
+.explain .lab{
+  font-family:var(--font-mono); font-size:10.5px; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--violet); display:block; margin-bottom:6px;
+}
+
+/* ---------- footer controls ---------- */
+.controls{ display:flex; gap:10px; align-items:center; margin-top:4px; }
+.btn{
+  font-family:var(--font-jp); font-weight:700; font-size:15px;
+  padding:13px 20px; border-radius:var(--r-sm); cursor:pointer; border:none;
+  transition:transform .1s ease, box-shadow .12s, background .12s;
+}
+.btn--primary{
+  background:var(--violet); color:#fff; box-shadow:0 6px 18px rgba(109,80,230,.28);
+}
+.btn--primary:hover{ transform:translateY(-1px); }
+.btn--ghost{
+  background:transparent; color:var(--muted); border:1px solid var(--line);
+  font-size:12.5px; font-family:var(--font-mono); padding:9px 13px;
+}
+.btn--ghost:hover{ color:var(--violet); border-color:var(--violet-2); }
+.controls .spacer{ flex:1; }
+#nextBtn{ display:none; }
+
+/* toggle */
+.toggle{
+  display:inline-flex; align-items:center; gap:8px; cursor:pointer;
+  font-family:var(--font-mono); font-size:12px; color:var(--muted);
+  user-select:none;
+}
+.toggle input{ accent-color:var(--violet); width:15px; height:15px; }
+
+.pagefoot{
+  margin-top:28px; padding-top:16px; border-top:1px solid var(--line);
+  font-family:var(--font-mono); font-size:11px; color:var(--muted);
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+}
+.pagefoot a{ color:var(--violet); text-decoration:none; }
+.pagefoot a:hover{ text-decoration:underline; }
+
+/* empty state */
+.empty{ text-align:center; color:var(--muted); padding:30px 10px; }
+.empty b{ color:var(--ink); }
+
+/* focus visibility */
+:focus-visible{ outline:3px solid var(--violet-2); outline-offset:2px; border-radius:6px; }
+
+/* motion */
+.card{ animation:rise .3s ease both; }
+@keyframes rise{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:none; } }
+@media (prefers-reduced-motion:reduce){
+  *{ animation:none !important; transition:none !important; }
+}
